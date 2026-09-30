@@ -1,23 +1,42 @@
-name: J-ROC Native Mobile Build
+name: J-ROC AI Universe Android App
 
 on:
   workflow_dispatch:
   push:
     paths:
       - "mobile/**"
+      - ".github/workflows/mobile-build.yml"
 
 jobs:
-  validate:
+  android-apk:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: mobile
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: mobile/package.json
-      - run: npm install
-      - run: npx tsc --noEmit
+      - name: Install dependencies
+        run: npm install
+      - name: Type check
+        run: npx tsc --noEmit
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --non-interactive
+      - name: Build release APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+      - name: Upload installable APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: JROC-AI-Universe-Android
+          path: mobile/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 30
