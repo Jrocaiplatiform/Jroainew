@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jroc-ai-cli"
+version = "0.3.0"
+description = "J-ROC AI command-line control plane"
+requires-python = ">=3.11"
+
+[project.scripts]
+jroc = "jroc_cli.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["jroc_cli*", "jroc_control*"]
