@@ -1,0 +1,1 @@
+export default function CommandPage(){return <main style={{padding:40}}><h1>J-ROC Command Center</h1><p>Web command center.</p></main>}
