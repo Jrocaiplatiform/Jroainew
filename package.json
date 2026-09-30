@@ -1,0 +1,27 @@
+{
+  "name": "jrocai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "cloudflare:provision": "powershell -ExecutionPolicy Bypass -File scripts/cloudflare-provision.ps1",
+    "cloudflare:deploy": "powershell -ExecutionPolicy Bypass -File scripts/cloudflare-deploy.ps1",
+    "test": "python -m unittest discover -s backend -p 'test_*.py'"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
