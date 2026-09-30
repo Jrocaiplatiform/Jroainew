@@ -1,0 +1,1 @@
+export default function PluginsPage(){return <main style={{padding:40}}><h1>J-ROC Plugin Launcher</h1><p>Authenticated platform launch center.</p></main>}
