@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "J-ROC AI Universe",
+    "slug": "jroc-ai-universe",
+    "version": "1.0.0",
+    "orientation": "default",
+    "scheme": "jrocai",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jrocaiplatiform.jrocai"
+    },
+    "android": {
+      "package": "com.jrocaiplatiform.jrocai",
+      "adaptiveIcon": {
+        "backgroundColor": "#05070d"
+      }
+    },
+    "extra": {
+      "apiBaseUrl": "https://jrocai.online/api/v1"
+    }
+  }
+}
