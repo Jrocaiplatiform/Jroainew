@@ -1,0 +1,96 @@
+name = "jrocai"
+main = "src/index.ts"
+compatibility_date = "2026-09-28"
+workers_dev = true
+compatibility_flags = ["nodejs_compat"]
+
+[[routes]]
+pattern = "jrocai.online/*"
+zone_name = "jrocai.online"
+
+[[routes]]
+pattern = "cloud.jrocai.online/*"
+zone_name = "jrocai.online"
+
+[[routes]]
+pattern = "api.jrocai.online/*"
+zone_name = "jrocai.online"
+
+[vars]
+ENVIRONMENT = "production"
+API_ORIGIN = "https://jrocai-api.onrender.com"
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[browser]
+binding = "BROWSER"
+
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jrocai-db"
+migrations_dir = "../cloudflare/migrations"
+
+[[kv_namespaces]]
+binding = "CACHE"
+
+[[r2_buckets]]
+binding = "ASSETS_BUCKET"
+bucket_name = "jrocai-assets"
+
+[[queues.producers]]
+binding = "MISSION_QUEUE"
+queue = "jrocai-missions"
+
+[[queues.consumers]]
+queue = "jrocai-missions"
+max_batch_size = 10
+max_batch_timeout = 5
+
+[[vectorize]]
+binding = "MEMORY_INDEX"
+index_name = "jrocai-memory"
+
+[[dispatch_namespaces]]
+binding = "DISPATCHER"
+namespace = "jrocai-production"
+
+[[durable_objects.bindings]]
+name = "JROC_COORDINATOR"
+class_name = "JrocCoordinator"
+
+[[durable_objects.bindings]]
+name = "JROC_COMPUTE_CONTAINER"
+class_name = "JrocComputeContainer"
+
+[[containers]]
+class_name = "JrocComputeContainer"
+image = "./Dockerfile"
+instance_type = "lite"
+max_instances = 3
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["JrocCoordinator", "JrocComputeContainer"]
+
+[exports.JrocMissionWorkflow]
+type = "workflow"
+name = "jroc-mission-workflow"
+
+[workflows]
+[[workflows.bindings]]
+binding = "JROC_MISSION_WORKFLOW"
+name = "jroc-mission-workflow"
+class_name = "JrocMissionWorkflow"
+
+[assets]
+directory = "../out"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
